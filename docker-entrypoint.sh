@@ -34,6 +34,8 @@ if [ ! -c /dev/net/tun ]; then
   mknod /dev/net/tun c 10 200
 fi
 
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
 chmod -R 777 /keys
 
 openvpn --config /etc/openvpn/openvpn.conf
