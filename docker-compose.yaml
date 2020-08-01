@@ -1,0 +1,25 @@
+version: '2'
+services:
+  openvpn:
+    cap_add:
+     - NET_ADMIN
+    image: test 
+    container_name: openvpn
+    ports:
+     - "1194:1194/tcp"
+    restart: always
+    depends_on:
+      - "gui"
+    volumes:
+     - ./openvpn-data/keys:/keys
+  gui:
+    user: root
+    image: ixdx/openvpn-easyrsa-web-ui:dev
+    container_name: openvpn-gui
+    ports:
+     - "8088:5000/tcp"
+    restart: always
+    environment:
+      - EXTERNAL_HOST=1.1.1.1
+    volumes:
+     - ./openvpn-data/keys:/app/easyrsa
